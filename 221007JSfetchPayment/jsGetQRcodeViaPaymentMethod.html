@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox GetPayment</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz(paymentMethodId) { // contractId >> paymentMethodId
+
+                var url = "https://sandbox.xfers.io/api/v4/payment_methods/paynow/" + paymentMethodId + "/";
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                fetch(url, requestOptions)
+                        .then(response => response.json())  //.then(response => response.text())
+                        .then(result => ope(result))        //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function ope(json) {
+                console.log(json);
+
+                var paymentMethodId = json.data.id;
+//                var status = json.data.attributes.status;
+//                var amount = json.data.attributes.amount;
+                var referenceId = json.data.attributes.referenceId;
+//                var paymentMethodId = json.data.attributes.paymentMethod.id;
+                var qrCodeDisplayImage = json.data.attributes.instructions.qrCodeDisplayImage;
+
+                var base64img = getBase64Img(qrCodeDisplayImage);
+
+                Base64ToImage(base64img, function (img) {
+                    document.getElementById('qrCodeImg').appendChild(img);
+//                    var log = "w=" + img.width + " h=" + img.height;
+//                    document.getElementById('log').value = log;
+                });
+                
+                document.getElementById('paymentMethodIdElem').innerHTML = " Id: " + paymentMethodId;
+//                document.getElementById('status').innerHTML = " Status: " + status;
+//                document.getElementById('amount').innerHTML = " Amount: $" + amount;
+                document.getElementById('referenceId').innerHTML = " Reference Id: " + referenceId;
+//                document.getElementById('paymentMethodId').innerHTML = " paymentMethod Id: " + paymentMethodId;
+            }
+            
+            
+            function getBase64Img(qrCodeDisplayImage) {
+
+                return "data:image/png;base64," + qrCodeDisplayImage;
+
+            }
+
+            function Base64ToImage(base64img, callback) {
+                var img = new Image();
+                img.onload = function () {
+                    callback(img);
+                };
+                img.src = base64img;
+            }
+        </script>
+    </head>
+    <body>
+        <h2>(Sandbox) Get A Paynow Payment via PaymentMethod</h2>
+        <form>
+            <p>
+                <label>Paynow ID:
+                    <input type="text" id="paymentMethodId" />
+                </label>
+            </p>
+            <input type="button" id="submit" value="Click to submit" />
+
+        </form>
+        
+        <h3>QRcode:</h3>
+        <div id="qrCodeImg"></div>
+        
+        <h3> :: :::</h3>
+        <section><h2></h2>
+            <div id ="paymentMethodIdElem"></div>
+            <!--<div id ="status"></div>-->
+            <!--<div id ="amount"></div>-->
+            <div id ="referenceId"></div>
+            <!--<div id ="paymentMethodId"></div>-->
+
+        </section>
+        <script>
+            function submitOpe() {
+                let paymentMethodId = document.getElementById("paymentMethodId").value;
+                fazz(paymentMethodId);
+            }
+
+            document.getElementById("submit").addEventListener("click", submitOpe);
+        </script>
+
+    </body>
+</html>
+<!--  
+Id: paynow_e54323446b353fb3138bb8ba74546ecf
+Reference Id: Inv221006C
+-->

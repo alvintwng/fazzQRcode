@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox Trigger</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz() {
+                
+                // from Postman: [Sandbox] trigger payment action
+                // Authorization from jsSandboxGetAOneTimePaymentOk.html
+                // "action": "settle" or "action": "receive_payment"
+                
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", " application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var raw = JSON.stringify({
+                  "data": {
+                    "attributes": {
+                      "action": "settle"
+                    }
+                  }
+                });
+
+                var requestOptions = {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: raw,
+                  redirect: 'follow'
+                };
+
+                fetch("https://sandbox.xfers.io/api/v4/payments/contract_bdc0ddd6829e4e1795dd84dbbe41c428/tasks", requestOptions)
+                  .then(response => response.text())
+                  .then(result => console.log(result))
+                  .catch(error => console.log('error', error));
+                
+            }
+        </script>
+    </head>
+    <body>
+        <div>Trigger Payment</div>
+        <div>
+            <button type="button" onclick="fazz()">Fazz here!</button>
+        </div>
+    </body>
+</html>
+<!--  result:
+{"data":{"type":"task","attributes":{"targetId":"contract_bdc0ddd6829e4e1795dd84dbbe41c428","targetType":"payment","action":"settle"}}}
+-->

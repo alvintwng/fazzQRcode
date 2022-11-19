@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+
+-->
+<html>
+    <head>
+        <title>Base64 To Img</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!-- Use external code file to generate image -->
+        <script src="qrcodeBase64.js" type="text/javascript"></script>
+        <script>
+            function getBase64Img() {
+                return "data:image/png;base64," + qrcodeBase64;
+            }
+            var base64img = getBase64Img();
+            function Base64ToImage(base64img, callback) {
+                var img = new Image();
+                img.onload = function () {
+                    callback(img);
+                };
+                img.src = base64img;
+            }
+            Base64ToImage(base64img, function (img) {
+                document.getElementById('main').appendChild(img);
+            });
+        </script>
+        <div id="main"></div>
+    </body>
+</html>

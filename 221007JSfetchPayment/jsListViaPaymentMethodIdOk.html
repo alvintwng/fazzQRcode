@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox GetPayment</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz(paymentMethodId) { // contractId >> paymentMethodId
+
+                var url = "https://sandbox.xfers.com/api/v4/payment_methods/paynow/" + paymentMethodId + "/payments";
+                document.getElementById('paymentMethodIdDisplay').innerHTML = "id: " + paymentMethodId;
+
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                fetch(url, requestOptions)
+                        .then(response => response.json())  //.then(response => response.text())
+                        .then(result => scheduling(result)) //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function scheduling(json) {
+                const jsonData = json.data;
+                console.log("   >>>>> Array Length:: " + jsonData.length);
+                //console.log(jsonData);
+
+                const list = document.getElementById("rowlist"); // <<<<<<<
+
+                function createSessionElement(session) {
+                    //  Create a <li> element for the session.
+                    //  Add the session title as the <li> text content
+                    //  Return the <li> element
+                    const li = document.createElement("li");
+                    li.textContent = htmlString(session); //session.id; // <<<<<
+                    return li;
+                }
+
+                function htmlString(session) {
+                    var s = (JSON.stringify(session.attributes.status, null, 2))
+                            + " :: " + JSON.stringify(session, null, 2);
+                    return s;
+                }
+
+                function clearList() {
+                    while (list.firstChild) {
+                        list.removeChild(list.firstChild);
+                    }
+                }
+
+                function displaylist() {
+                    clearList();
+
+                    // Loop through the json array
+                    // Create session elements, Append the elements to the list   
+                    for (let i = 0; i < jsonData.length; i++) {
+                        const li = createSessionElement(jsonData[i]);
+                        list.appendChild(li);
+                    }
+                    //console.log(">>>>>>> "); console.log(list);
+                }
+
+                displaylist();
+            }
+
+        </script>
+    </head>
+    <body>
+        <h2>(Sandbox) Get A Paynow Payment via PaymentMethod</h2>
+        <form>
+            <p>
+                <label>Paynow ID:
+                    <input type="text" id="paymentMethodId" />
+                </label>
+            </p>
+            <input type="button" id="submit" value="Click to submit" />
+
+        </form>
+
+        <!--        <h3>QRcode:</h3>
+                <div id="qrCodeImg"></div>
+        
+                <h3> :: :::</h3>-->
+        <section>
+            <div>
+                <h3 id ="paymentMethodIdDisplay"></h3>
+                Show: 
+                <ul id = "rowlist"></ul>
+            </div>
+        </section>
+        <script>
+            function submitOpe() {
+                let paymentMethodId = document.getElementById("paymentMethodId").value;
+                fazz(paymentMethodId);
+            }
+
+            document.getElementById("submit").addEventListener("click", submitOpe);
+        </script>
+
+    </body>
+</html>
+<!--  
+Id: paynow_e54323446b353fb3138bb8ba74546ecf
+Reference Id: Inv221006C
+-->

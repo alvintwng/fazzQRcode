@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox SelectedPayments</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script>
+
+            function fazz() {
+                var myHeaders = new Headers();
+                myHeaders.append("content-type", "application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                fetch("https://sandbox.xfers.com/api/v4/payments", requestOptions)
+                        .then(response => response.json()) //.then(response => response.text())
+                        .then(result => scheduling(result)) //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function scheduling(json) {
+                const jsonData = json.data;
+                console.log("   >>>>> Array Length:: " + json.data.length);
+
+                //  Get the "jsonData" list element from the document
+                const list = document.getElementById("rowlist");
+                const track1CheckBox = document.getElementById("show-track-1");
+                const track2CheckBox = document.getElementById("show-track-2");
+                const track3CheckBox = document.getElementById("show-track-3");
+                const track4CheckBox = document.getElementById("show-track-4");
+
+                function createSessionElement(session) {
+                    //  Create a <li> element for the session.
+                    //  Add the session title as the <li> text content
+                    //  Return the <li> element
+                    const li = document.createElement("li");
+                    li.textContent = session.id;
+                    return li;
+                }
+
+                function clearList() {
+                    while (list.firstChild) {
+                        list.removeChild(list.firstChild);
+                    }
+                }
+
+                function displaylist() {
+                    clearList();
+
+                    // Loop through the json array
+                    // Create session elements
+                    // Append the elements to the list   
+                    for (let i = 0; i < jsonData.length; i++) {
+                        const status = jsonData[i].attributes.status;
+                        const isCurrentTrack =
+                                (track1CheckBox.checked && (status == "expired")) ||
+                                (track2CheckBox.checked && (status == "completed")) ||
+                                (track3CheckBox.checked && (status == "paid")) ||
+                                (track4CheckBox.checked && (status == "pending"))
+
+                        if (isCurrentTrack) {
+                            const li = createSessionElement(jsonData[i]);
+                            list.appendChild(li);
+                        }
+                    }
+                }
+
+                displaylist();
+                track1CheckBox.addEventListener("click", displaylist, false);
+                track2CheckBox.addEventListener("click", displaylist, false);
+                track3CheckBox.addEventListener("click", displaylist, false);
+                track4CheckBox.addEventListener("click", displaylist, false);
+            }
+
+            // Execute
+            fazz();
+            
+        </script>
+    </head>
+    <body>
+        <section>
+            <div>
+                <h2>List selected payment ContractID</h2>
+                Show: 
+                <input type="checkbox" id="show-track-4" checked="checked" /><label for="show-track-2">Pending</label>
+                <input type="checkbox" id="show-track-3" checked="checked" /><label for="show-track-2">Paid</label>
+                <input type="checkbox" id="show-track-1" checked="checked" /><label for="show-track-1">Expired</label>
+                <input type="checkbox" id="show-track-2" checked="checked" /><label for="show-track-2">Completed</label>
+                <ul id = "rowlist"></ul>
+            </div>
+        </section>
+    </body>
+</html>
+
+<!-- Ref from Fazz:
+curl https://sandbox.xfers.com/api/v4/payments \
+  --header 'content-type: application/vnd.api+json' \
+  -u test_api_key:secret_key
+-->

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox List Payments</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz(encoded) {
+
+                var myHeaders = new Headers();
+                myHeaders.append("content-type", "application/vnd.api+json");
+                //myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+                myHeaders.append("Authorization", encoded);
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                fetch("https://sandbox.xfers.com/api/v4/payments", requestOptions)
+                        .then(response => response.json()) //.then(response => response.text())
+                        .then(result => ope(result)) //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function ope(json) {
+                console.log(json.data);
+                var lgth = json.data.length;
+                console.log("Array Length:: " + lgth);
+
+                for (let i = 0; i < lgth; i++) {
+                    console.log("::::::::::::::::::");
+                    console.log(json.data[i].id);
+                    var obj = json.data[i].attributes;
+                    var str = JSON.stringify(obj, null, 2); // spacing level = 2
+                    console.log(str);
+                }
+                //console.log(" Last contract: ");
+                //console.log(json.data[0].attributes);
+
+                document.getElementById('announce').innerHTML = " >>> check at the Console from Developer Tools <<<";
+
+            }
+        </script>
+    </head>
+    <body>
+        <div>List all Payments</div>
+        <form>
+            <p><label>Api Key:
+                    <input type="text" id="apiKeyuserName" />
+                </label>
+                <label>Key Pass:
+                    <input type="text" id="apiKeyPassword" />
+                </label>
+            </p>
+        </form>
+        <div>
+            <button type="button" onclick="submitOpe()">Submit!</button>
+        </div>
+        
+        <div id="announce"></div>
+
+        <script>
+            function submitOpe() {
+                let apiKeyuserName = document.getElementById("apiKeyuserName").value;
+                // eg. test_49bc9d44d56d726a590ea35c78f771c8
+                let apiKeyPassword = document.getElementById("apiKeyPassword").value;
+                // eg. 0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+                let keyNPass = apiKeyuserName + ":" + apiKeyPassword;
+                let encoded = "Basic " + window.btoa(keyNPass);
+                console.log(encoded);
+                
+                fazz(encoded);
+            }
+        </script>
+
+    </body>
+</html>
+
+<!-- Ref from Fazz:
+curl https://sandbox.xfers.com/api/v4/payments \
+  --header 'content-type: application/vnd.api+json' \
+  -u test_api_key:secret_key
+-->
+<!-- reference
+<p id="demo"></p>
+
+<script>
+let text = "Hello World!";
+let encoded = window.btoa(text);
+
+document.getElementById("demo").innerHTML = "Original: " + text + "<br>Encoded: " + encoded;
+</script>
+```
+ref: https://www.w3schools.com/jsref/met_win_btoa.asp
+-->
+
+<!-- Screen
+List all Payments
+Api Key: test_49bc9d44d56d726a590ea35c78f771c8
+ Key Pass: 0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+
+Submit!
+>>> check at the Console from Developer Tools <<<
+-->

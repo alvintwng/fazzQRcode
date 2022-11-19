@@ -1,0 +1,108 @@
+
+cd C:\Users\...
+Running NetBeans Compile On Save execution. Phase execution is skipped and ou...
+Scanning for projects...
+
+-------------------------< com.zero1:qrcode1 >--------------------------
+Building qrcode1 ver01
+--------------------------------[ jar ]---------------------------------
+
+--- exec-maven-plugin:3.0.0:exec (default-cli) @ qrcode1 ---
+Please enter 'LIVE' or else will be in sandbox mode: 
+
+=== SANDBOX mode ===
+BaseUrl :: https://sandbox.xfers.io/api
+Api_Key :: test_49bc9d44d56d726a590ea35c78f771c8
+Password :: 0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+
+
+Select:
+1. Generate QR base64 to console
+2. Generate Fazz QRCode to browser
+3. List all payments
+4. Beaconstac QRCode
+9. Exit
+Choice:  1
+
+:: Generate QR base64 to console ::
+Input QRCode reference
+Reference Id : qr221118a
+ paynow id :: paynow_21f9ce668f6555b49162b71d234b65af
+
+ QRCode :: iVBORw0KGgoAAAANSUhEUgAAAYYAAAGGCAYAAAB/gCblAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAA...
+
+Select:
+1. Generate QR base64 to console
+2. Generate Fazz QRCode to browser
+3. List all payments
+4. Beaconstac QRCode
+9. Exit
+Choice:  2
+
+:: Generate Fazz QRCode to browser ::
+Input QRCode reference
+Reference Id : qr221118a
+ paynow id :: paynow_21f9ce668f6555b49162b71d234b65af
+
+QRCode Base64 String generated to file: qrcodeBase64.js
+
+Select:
+1. Generate QR base64 to console
+2. Generate Fazz QRCode to browser
+3. List all payments
+4. Beaconstac QRCode
+9. Exit
+Choice:  3
+
+:: List all payments ::
+contract id                                    status amount  createdAt                  reference/paynow Id             
+-----------                                    ------ ------  ---------                  -------------------             
+contract_de371c901bc3488aab8437e47bdb8cc4     completed  2.0  2022-11-03T11:11:15+08:00  paynow_test_e9d465f7f8_1667445075  
+contract_08af87d874b84e0d99811c60a86a1e35          paid  2.0  2022-11-03T10:52:29+08:00  paynow_test_358d760520_1667443949  
+contract_0de0162d1ad6416498bd16ecb80e6bf6       expired  0.1  2022-11-03T10:45:31+08:00  Inv221103A                      
+contract_6edd0dc1f25143bd9824cd1ebe93a9ce     completed  1.2  2022-11-02T14:38:29+08:00  7342659819880_external_id_ffa608cf40  
+contract_0d7f5d55a05d41ddbde2523694e9d0b0          paid  1.6  2022-11-02T14:35:17+08:00  ORDER_0018                      
+contract_ce64ba0b2a21479ab5b710729d7cd667          paid  1.6  2022-11-02T14:16:36+08:00  ORDER_0017                      
+contract_4ae5bda434f4469798339562221d0078       expired  0.1  2022-11-02T11:51:05+08:00  Inv221102B                      
+contract_341ac8f128a74c1ab369a367ed4f2ec0          paid  0.1  2022-11-02T11:41:06+08:00  Inv221102A                      
+contract_9f1dffc4be724a8e8b537423f48f8a72          paid  0.1  2022-11-01T10:34:32+08:00  Inv221101A                      
+contract_daeee3c3c72e49808a0bd1251a142c12          paid  0.1  2022-10-31T14:04:31+08:00  Inv221031F                      
+
+Select:
+1. Generate QR base64 to console
+2. Generate Fazz QRCode to browser
+3. List all payments
+4. Beaconstac QRCode
+9. Exit
+Choice:  4
+
+:: Beaconstac QRCode ::
+Input QRCode reference
+Reference Id : qr221118a
+ paynow id :: paynow_21f9ce668f6555b49162b71d234b65af
+
+> Url text: 00000101021226500009SG.PAYNOW010120213201411660RXFR03010041420210410120223520400005303702...
+Beaconstac QRcode Generator
+Organization ID : 123...
+Token : bb083ed7...
+
+Input QR image file name: qr221118a
+Input Text to be displayed in frame: qr221118a provided by Fazz.
+> Beaconstac image Id: 1201270
+QRCode may download from :: https://beaconstac-content.s3.amazonaws.com/208507/qr-codes/1201270/png/...
+
+Select:
+1. Generate QR base64 to console
+2. Generate Fazz QRCode to browser
+3. List all payments
+4. Beaconstac QRCode
+9. Exit
+Choice:  9
+
+Thanks for using ...
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time:  05:25 min
+Finished at: 2022-11-18T09:38:49+08:00
+------------------------------------------------------------------------

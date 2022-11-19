@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox GetPayment</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz() {
+                
+                var myHeaders = new Headers();
+                myHeaders.append("content-type", "application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var raw = JSON.stringify({
+                  "data": {
+                    "attributes": {
+                      "amount": "0.1",
+                      "referenceId": "Inv221004B",
+                      "paymentMethodType": "paynow",
+                      "expiredAt": "2022-11-01T20:03:53+07:00",
+                      "paymentMethodOptions": {
+                        "merchantPrefix": "ZERO1"
+                      }
+                    }
+                  }
+                });
+
+                var requestOptions = {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: raw,
+                  redirect: 'follow'
+                };
+
+                fetch("https://sandbox.xfers.io/api/v4/payments", requestOptions)
+                  .then(response => response.text())
+                  .then(result => console.log(result))
+                  .catch(error => console.log('error', error));
+          
+            }
+            
+        </script>
+    </head>
+    <body>
+        <div>Get A One-time Payment</div>
+        <div>
+            <button type="button" onclick="fazz()">Fazz here!</button>
+        </div>
+    </body>
+</html>
+
+<!-- Sample Dialogue
+{"data":{"id":"contract_1bedd1fd15644194b7a865998282b584","type":"payment",
+"attributes":{"status":"pending","amount":"0.1","createdAt":"2022-10-04T14:36:56+08:00",
+"description":null,"expiredAt":"2022-11-01T20:03:53+07:00","referenceId":"Inv221004B",
+"fees":"0.0","paymentMethod":{"id":"paynow_7342708178ec1019ce4c0027464014ee",
+"type":"paynow","qrCodeDisplayImage":"iVBORw0KGgoAAAANSUh...
+-->
+<!-- from Fazz guide
+```
+curl https://sandbox.xfers.io/api/v4/payments \
+ --header 'content-type: application/vnd.api+json' \
+ -u test_api_key:secret_key \
+ -d '
+{
+  "data": {
+    "attributes": {
+      "amount": "0.1",
+      "referenceId": "note221004A",
+      "paymentMethodType": "paynow",
+      "expiredAt": "2022-11-01T20:03:53+07:00",
+      "paymentMethodOptions": {
+        "merchantPrefix": "ZERO1"
+      }
+    }
+  }
+}
+'
+-->
