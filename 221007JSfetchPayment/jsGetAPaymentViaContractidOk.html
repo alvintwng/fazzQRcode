@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox GetPayment</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz(contractId) {
+
+                var url = "https://sandbox.xfers.io/api/v4/payments/" + contractId + "/";
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                fetch(url, requestOptions)
+                        .then(response => response.json())  //.then(response => response.text())
+                        .then(result => ope(result))        //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function ope(json) {
+                console.log(json);
+
+                var contractId = json.data.id;
+                var status = json.data.attributes.status;
+                var amount = json.data.attributes.amount;
+                var referenceId = json.data.attributes.paymentMethod.referenceId;
+                var paymentMethodId = json.data.attributes.paymentMethod.id;
+
+                document.getElementById('contractId').innerHTML = " Contract Id: " + contractId;
+                document.getElementById('status').innerHTML = " Status: " + status;
+                document.getElementById('amount').innerHTML = " Amount: $" + amount;
+                document.getElementById('referenceId').innerHTML = " Reference Id: " + referenceId;
+                document.getElementById('paymentMethodId').innerHTML = " paymentMethod Id: " + paymentMethodId;
+            }
+        </script>
+    </head>
+    <body>
+        <h2>(Sandbox) Get A Payment</h2>
+        <form>
+            <p>
+                <label>Contract Id :
+                    <input type="text" id="contractIdElementId" />
+                </label>
+            </p>
+            <input type="button" id="submit" value="Click to submit" />
+
+        </form>
+        <h3> :: :::</h3>
+        <section><h2></h2>
+            <div id ="contractId"></div>
+            <div id ="status"></div>
+            <div id ="amount"></div>
+            <div id ="referenceId"></div>
+            <div id ="paymentMethodId"></div>
+
+        </section>
+        <script>
+            function submitOpe() {
+                let contractId = document.getElementById("contractIdElementId").value;
+                fazz(contractId);
+            }
+
+            document.getElementById("submit").addEventListener("click", submitOpe);
+        </script>
+
+    </body>
+</html>
+<!-- browser 
+(Sandbox) Get A Payment
+Contract Id : 
+contract_27d51f5f060241ba8145aa623b09cea2
+
+:: :::
+Contract Id: contract_27d51f5f060241ba8145aa623b09cea2
+Status: paid
+Amount: $0.1
+Reference Id: Inv221006C
+paymentMethod Id: paynow_e54323446b353fb3138bb8ba74546ecf
+-->

@@ -1,0 +1,43 @@
+Working cURL
+===
+
+221004_CurlToGetPayment_OK.txt > Worked > is use on Postman from imported cURL
+```
+curl https://sandbox.xfers.io/api/v4/payments --header 'content-type: application/vnd.api+json' -u 'test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho' -d '{"data": { "attributes": {"amount": "0.1","referenceId": "note221004A","paymentMethodType": "paynow","expiredAt": "2022-11-01T20:03:53+07:00","paymentMethodOptions": {"merchantPrefix": "ZERO1"}}}}'
+```
+
+220929_callback.txt >> Worked Command Prompt, & Browser
+```
+curl https://webhook.site/token/8b232988-c29e-4038-8c57-fd13f943822f/requests
+```
+
+banks > Worked Command Prompt
+```
+curl https://sandbox.xfers.io/api/v4/banks --header 'content-type: application/vnd.api+json' -u test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+```
+
+221004_CurlGetAListOfPayment.txt > Worked Command Prompt
+```
+curl https://sandbox.xfers.com/api/v4/payments --header 'content-type: application/vnd.api+json' -u test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+```
+
+Get payment via contractId  > Worked Command Prompt
+```
+curl https://sandbox.xfers.com/api/v4/payments/contract_02d4db2075314dfe83f1210e26f5c23e --header 'content-type: application/vnd.api+json' -u test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+```
+
+Get a payment method >> Worked Command Prompt
+```
+curl https://sandbox.xfers.com/api/v4/payment_methods/paynow/paynow_e54323446b353fb3138bb8ba74546ecf --header 'content-type: application/vnd.api+json' -u test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+
+curl https://sandbox.xfers.io/api/v4/payment_methods/paynow/paynow_e54323446b353fb3138bb8ba74546ecf --header 'content-type: application/vnd.api+json' -u test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+```
+
+Get a payment method via paymentMethodId >> Worked Command Prompt
+```
+curl https://sandbox.xfers.com/api/v4/payment_methods/paynow/paynow_e54323446b353fb3138bb8ba74546ecf/payments --header 'content-type: application/vnd.api+json' -u test_49bc9d44d56d726a590ea35c78f771c8:0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho
+```
+
+
+
+----

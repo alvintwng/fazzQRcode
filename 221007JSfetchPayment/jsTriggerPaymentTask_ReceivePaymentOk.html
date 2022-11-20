@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox Trigger</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function fazz(paynowId, amount, action) {
+
+                var url = "https://sandbox.xfers.io/api/v4/payment_methods/paynow/" + paynowId + "/tasks";
+
+                console.log("  url :: " + url);
+                console.log("  amount :: " + amount);
+                console.log("  action :: " + action);
+
+                // from Postman: [Sandbox] trigger payment action
+                // Authorization from jsSandboxGetAOneTimePaymentOk.html
+                // "action": "settle" or "action": "receive_payment"
+
+                // Fetch
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", " application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var raw = JSON.stringify({
+                    "data": {
+                        "attributes": {
+                            "action": action,
+                            "options": {
+                                "amount": amount
+                            }
+                        }
+                    }
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch(url, requestOptions)
+                        .then(response => response.json()) //.then(response => response.text())
+                        .then(result => ope(result)) //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function ope(json) {
+                console.log(json);
+
+                var targetId = json.data.attributes.targetId;
+                var status = json.data.attributes.action;
+                document.getElementById('displayContractID').innerHTML = " Id: " + targetId;
+                document.getElementById('displayAction').innerHTML = " Action Done: " + status;
+            }
+        </script>
+    </head>
+    <body>
+        <h2>(Sandbox only) Trigger Payment - receive_payment</h2>
+        <p>Suitable for trigger 'receive_payment', one-time payment</p>
+        <form>
+            <p>
+                <label>Paynow ID :
+                    <input type="text" id="paynowId" />
+                </label>
+            </p>
+            <p>
+                <label>Amount :
+                    <input type="number" id="amountId" />
+                </label>
+            </p>
+<!--            <p>
+                <label>Action :
+                    <input type="text" id="action" />
+                </label> <br />
+                choose "receive_payment" or "settle"
+            </p>-->
+            <!--<button type="button" onclick="fazz()">Fazz here!</button>-->
+            <input type="button" id="submit" value="Click to submit" />
+        </form>
+<!--        <p>
+            Note: <br />
+            if "pending" choose "receive_payment" <br  />
+            if "paid" choose "settle" <br />
+            ::::::::::::::::
+        </p>-->
+
+        <section><h2></h2>
+            <div id ="displayContractID"></div>
+            <div id ="displayAction"></div>
+        </section>
+
+        <script>
+            function submitOpe() {
+                let paynowId = document.getElementById("paynowId").value;
+                let amount = document.getElementById("amountId").value;
+                //let action = document.getElementById("action").value;
+                let action = "receive_payment";
+                fazz(paynowId, amount, action);
+            }
+
+            document.getElementById("submit").addEventListener("click", submitOpe);
+        </script>
+    </body>
+</html>
+<!--  result:
+  url :: https://sandbox.xfers.io/api/v4/payments/contract_1bedd1fd15644194b7a865998282b584/tasks
+jsTriggerPaymentAction.html:17   action :: receive_payment
+jsTriggerPaymentAction.html:45 {"data":{"type":"task","attributes":{"targetId":"contract_1bedd1fd15644194b7a865998282b584","targetType":"payment","action":"receive_payment"}}}
+-->

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Base64 To Img</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- qrcodeBase64.js contain var qrcodeBase64, paynowId, attrReferenceId -->
+        <script src="qrcodeBase64.js"></script>
+        <script>
+            function getBase64Img() {
+                return "data:image/png;base64," + qrcodeBase64;
+            }
+            var base64img = getBase64Img();
+            function Base64ToImage(base64img, callback) {
+                var img = new Image();
+                img.onload = function () {
+                    callback(img);
+                };
+                img.src = base64img;
+            }
+            Base64ToImage(base64img, function (img) {
+                document.getElementById('main').appendChild(img);
+            });
+        </script>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            .main {
+                float: left;
+                border: 2px solid maroon;
+                padding: 15px;
+            }
+            .scanThis {
+                font-size: 3vw;
+            }
+        </style>
+    </head>
+    <body>
+        <form class="main">
+            <div class="scanThis">Scan this QR to pay</div>
+            <div id="main"></div>
+
+            <div id="paynowId"></div>
+            <div id="refId"></div>
+        </form>
+
+        <script>
+            document.getElementById("paynowId").innerHTML = "Id: " + paynowId;
+            document.getElementById("refId").innerHTML = "referenceId: " + attrReferenceId;
+        </script>
+    </body>
+</html>

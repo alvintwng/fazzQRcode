@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sandbox Paynow</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            // Generate Paynow qrCode, unlimited 
+            function fazz(customerId, attrReferenceId) {
+                console.log("customerId >> " + customerId);
+                console.log("attrReferenceId >> " + attrReferenceId);
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/vnd.api+json");
+                myHeaders.append("Authorization", "Basic dGVzdF80OWJjOWQ0NGQ1NmQ3MjZhNTkwZWEzNWM3OGY3NzFjODowcEk0b0pkMkJ6N200OG5ya3lqaVZ3Ykh2dm1JY1pobw==");
+
+                var raw = JSON.stringify({
+                    "data": {
+                        "relationships": {
+                            "customerProfile": {
+                                "data": {
+                                    "id": customerId
+                                }
+                            }
+                        },
+                        "attributes": {
+                            "merchantPrefix": "ZERO1",
+                            "referenceId": attrReferenceId
+                        }
+                    }
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("https://sandbox.xfers.io/api/v4/payment_methods/paynow", requestOptions)
+                        .then(response => response.json())  //.then(response => response.text())
+                        .then(result => ope(result))        //.then(result => console.log(result))
+                        .catch(error => console.log('error', error));
+            }
+
+            function ope(json) {
+                console.log(json);
+
+                var contractId = json.data.id;
+                //var status = json.data.attributes.status;
+                //var amount = json.data.attributes.amount;
+                var referenceId = json.data.attributes.referenceId;
+                var qrCodeDisplayImage = json.data.attributes.instructions.qrCodeDisplayImage;
+
+                var base64img = getBase64Img(qrCodeDisplayImage);
+
+                Base64ToImage(base64img, function (img) {
+                    document.getElementById('qrCodeImg').appendChild(img);
+//                    var log = "w=" + img.width + " h=" + img.height;
+//                    document.getElementById('log').value = log;
+                });
+
+                document.getElementById('contractId').innerHTML = " Id: " + contractId;
+//                document.getElementById('status').innerHTML = " Status: " + status;
+//                //document.getElementById('amount').innerHTML = " Customer Id: " + amount;
+                document.getElementById('referenceId').innerHTML = " Reference Id: " + referenceId;
+            }
+
+            function getBase64Img(qrCodeDisplayImage) {
+
+                return "data:image/png;base64," + qrCodeDisplayImage;
+
+            }
+
+            function Base64ToImage(base64img, callback) {
+                var img = new Image();
+                img.onload = function () {
+                    callback(img);
+                };
+                img.src = base64img;
+            }
+        </script>
+    </head>
+    <body>
+        <h2>(Sandbox) Paynow Unlimited</h2>
+
+        <form>
+            <p>
+                <label>Customer Id :
+                    <input type="text" id="customerIdElementId" />
+                </label>
+            </p>
+            <p>
+                <label>Reference Id :
+                    <input type="text" id="attrReferenceId" />
+                </label>
+            </p>
+            <input type="button" id="submit" value="Click to submit" />
+
+        </form>
+
+        <p>QRcode:</p>
+        <div id="qrCodeImg"></div>
+        <section><h2></h2>
+            <div id ="contractId"></div>
+            <div id ="status"></div>
+            <div id ="amount"></div>
+            <div id ="referenceId"></div>
+        </section>
+        
+        <section><h4>Notes</h4>
+            <ul>
+                <li><a href=jsListViaPaymentMethodIdOk.html>jsListViaPaymentMethodIdOk.html</a> - to check the status</li>
+                <li><a href=jsTriggerPaymentTask_ReceivePaymentOk.html>jsTriggerPaymentTask_ReceivePaymentOk.html</a> - (Sandbox) )to Receive_Payment</li>
+                <li><a href=jsTriggerPaymentActionOk.html>jsTriggerPaymentActionOk.html</a> (Sandbox only) to trigger payment</li>
+            </ul>
+        </section>
+        
+        <script>
+            function submitOpe() {
+                let customerId = document.getElementById("customerIdElementId").value; // 0.2
+                let attrReferenceId = document.getElementById("attrReferenceId").value; // Inv221004C
+                fazz(customerId, attrReferenceId);
+            }
+
+            document.getElementById("submit").addEventListener("click", submitOpe);
+        </script>
+    </body>
+</html>
+
+<!-- comment
+Contract Id: contract_ec6940b497334ea3876737ed02357508
+Status: pending
+Amount: $0.2
+Reference Id: Inv221004C
+
+-->

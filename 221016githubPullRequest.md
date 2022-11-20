@@ -1,0 +1,23 @@
+### github Pull Request
+
+- login in to principal's `Github`
+- visit target repository file to change, eg `alvintwng/note2022`.
+- do a mod, eg Add file, the target repository will forked to principal Github.
+- in this forked repository at princial GitHub, created new branch, eg `newbranch`.
+- make changes ...
+- click `Compare & pull request`, or click on # `commits ahead`
+  - It auto switch to target Github, `alvintwng`, for  click `create pull request` 
+  - `base repository: alvintwng/note2022, base main < head repository, compare newbranch`.
+    - change branch if necessary 
+  - `Able to merge`
+  - added subject: `note on pull request #1`
+  - click `Create pull request
+  - Added comments note
+  - DO NOT click on `Close pull request` yet
+- in target repository shown tag `Pull requests 1`
+  - Create new branch for this review
+  - Select `note on pull request #1`, and `if click `Assign`
+  - if click `New pull request`
+  - `Compare changes`
+- `note on pull request #1 #2`
+-
