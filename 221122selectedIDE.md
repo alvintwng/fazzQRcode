@@ -21,3 +21,11 @@ java supported, ie pre-install the Extension Coding Pack for Java.
 - right-click at the project folder > Run As > *Spring Boot App*
 
 ---
+Java in VIsual Studio Code
+
+[Managing Java Projects in VS Code](https://code.visualstudio.com/docs/java/java-project)
+
+[Getting Started with Java in VS Code](https://code.visualstudio.com/docs/java/java-tutorial)
+
+
+---
