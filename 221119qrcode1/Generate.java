@@ -24,9 +24,7 @@ public class Generate extends FazzAttribute {
     }
 
     public Generate(String baseUrl, String apiKey, String password) {
-        setBaseUrl(baseUrl);
-        setApikey(apiKey);
-        setPassword(password);
+        super(baseUrl, apiKey, password);
     }
 
     /**
@@ -65,7 +63,7 @@ public class Generate extends FazzAttribute {
             String responseBody = response.getBody();
             jObject = new JSONObject(responseBody);
         } catch (UnirestException ex) {
-            System.out.println(">>> Error on UnirestException ::: " + ex);
+            System.out.println("> Exeception Error on UnirestException at Generate.java :: " + ex);
         }
         return jObject;
     }
@@ -99,7 +97,7 @@ public class Generate extends FazzAttribute {
             this.setPaynowId(paynowIdStr);
             qrCodeBase64 = (String) jInstructions.get("qrCodeDisplayImage");
         } catch (JSONException e) {
-            System.out.println(">>> Error on JSONException ::: " + e);
+            System.out.println("> Exception Error on JSONException at Generate.java :: " + e);
             System.out.println("Please check your inputs.");
             System.exit(0);
         }

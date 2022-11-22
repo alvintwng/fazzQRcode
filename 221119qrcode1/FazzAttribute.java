@@ -12,8 +12,29 @@ public class FazzAttribute {
     private String attrReferenceId;
     private String paynowId;
 
-    public void setBaseUrl(String baseUrl) {
+    public FazzAttribute() {
+    }
+
+    public FazzAttribute(String baseUrl, String apikey, String password) {
         this.baseUrl = baseUrl;
+        this.apikey = apikey;
+        this.password = password;
+    }
+
+    /**
+     * Set the FazzAttribute with the following param. And check for correct
+     * entries.
+     *
+     * @param baseUrl
+     * @param apikey
+     * @param password
+     */
+    public void setAPI(String baseUrl, String apikey, String password) {
+        this.baseUrl = baseUrl;
+        this.apikey = apikey;
+        this.password = password;
+
+        okApiPass();
     }
 
     public String getBaseUrl() {
@@ -24,16 +45,8 @@ public class FazzAttribute {
         return apikey;
     }
 
-    public void setApikey(String apikey) {
-        this.apikey = apikey;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setBigString(String bigString) {
@@ -67,6 +80,24 @@ public class FazzAttribute {
         baseUrl = "https://sandbox.xfers.com/api";
         apikey = "test_49bc9d44d56d726a590ea35c78f771c8";
         password = "0pI4oJd2Bz7m48nrkyjiVwbHvvmIcZho";
+    }
+
+    /**
+     * To determine if the baseUrl, ApiKey and password is correctly enter.
+     *
+     * @return true if there is no JSONn with `data`
+     */
+    private boolean okApiPass() {
+        ListAllPayments list = new ListAllPayments(
+                baseUrl, apikey, password);
+
+        boolean ifNotOk = list.getHttpGetListAllPaymt().isNull("data");
+        if (ifNotOk) {
+            System.out.println(">> Error in authentication."
+                    + " Please re-enter the API key, or the Secret.");
+            System.exit(0);
+        }
+        return ifNotOk;
     }
 
 }

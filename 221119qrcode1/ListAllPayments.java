@@ -22,9 +22,7 @@ public class ListAllPayments extends FazzAttribute {
     }
 
     public ListAllPayments(String baseUrl, String apiKey, String password) {
-        setBaseUrl(baseUrl);
-        setApikey(apiKey);
-        setPassword(password);
+        super(baseUrl, apiKey, password);
     }
 
     /**
@@ -53,10 +51,14 @@ public class ListAllPayments extends FazzAttribute {
         } catch (UnirestException e) {
             System.out.println("!!! UnirestException ::: " + e);
         } catch (Exception e) {
-            System.out.println(">>> Exception Error :: " + e);
+            System.out.println("> Exception Error at ListAllPayments.java :: " + e);
             System.exit(0);
         }
         return jObject;
+    }
+
+    public JSONObject getHttpGetListAllPaymt() {
+        return httpGetListAllPaymt();
     }
 
     /**
@@ -85,7 +87,7 @@ public class ListAllPayments extends FazzAttribute {
                 System.out.println("");
             }
         } catch (JSONException e) {
-            System.out.println(">>> Error JSONException : " + e);
+            System.out.println("> Exception Error JSONException at ListAllPayments.java :: " + e);
         }
     }
 
@@ -101,9 +103,11 @@ public class ListAllPayments extends FazzAttribute {
      * to test in this Sandbox code
      */
     public static void main(String[] args) {
-        ListAllPayments listPayments = new ListAllPayments();
-        listPayments.setSandbox();
-        listPayments.generatePaymentList();
+        ListAllPayments list = new ListAllPayments();
+        list.setSandbox();
+        list.setAPI(list.getBaseUrl(), list.getApikey(), list.getPassword());
+//        f.setAPI(f.getBaseUrl(), "test_wrong_String", f.getPassword());
+        list.generatePaymentList();
     }
 }
 /* Console

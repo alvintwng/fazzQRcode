@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Base64;
 import javax.imageio.ImageIO;
+import org.json.JSONException;
 
 /**
  * Beaconstac format api to generate qrcode, and download qrcode.
@@ -66,9 +67,9 @@ public class Beaconstac {
             return qrText;
         } catch (NotFoundException e) {
             System.out.println("\nSorry.. Something went wrong...\n");
-            System.out.println(">>> " + e.getMessage());
+            System.out.println("> Exception Error at Beaconstac.java :: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println(">>> " + e.getMessage());
+            System.out.println("> Exception Error at Beaconstac.java :: " + e.getMessage());
 
         }
         return qrText;
@@ -103,6 +104,7 @@ public class Beaconstac {
 
         // Using Beaconstac API to generate qrcode from input text, with above references
         JSONObject jObject = null;
+        int imgId = 0;
         try {
             String body
                     = "{\"name\": \"" + refNo + "\",\"organization\": " + ORG_ID
@@ -123,13 +125,19 @@ public class Beaconstac {
 
             jObject = new JSONObject(responseBody);
 
+            // extract the id from json
+            imgId = (Integer) jObject.get("id");
+
         } catch (UnirestException ex) {
-            System.out.println(">>> Error on UnirestException ::: " + ex);
+            System.out.println("> Exception Error on UnirestException at Beaconstac.java :: " + ex);
+            System.exit(0);
+        } catch (JSONException ex) {
+            System.out.println("> Error on Org_id, or Token. Pls re-enter. ");
             System.exit(0);
         }
 
         // extract the id from json
-        int imgId = (Integer) jObject.get("id");
+        imgId = (Integer) jObject.get("id");
 
         return imgId;
     }
@@ -158,7 +166,7 @@ public class Beaconstac {
             String responseBody = response.getBody();
             jObject = new JSONObject(responseBody);
         } catch (UnirestException e) {
-            System.out.println("!!! UnirestException ::: " + e);
+            System.out.println("> Exception Error on UnirestException at Beaconstac :: " + e);
             System.exit(0);
         }
 
