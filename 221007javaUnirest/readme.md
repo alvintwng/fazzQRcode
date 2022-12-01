@@ -6,3 +6,11 @@
 - createJAR.md - how to creating **JAR** file in netbeans.
 
 ---
+Example of **JSONObject** for testing purpose
+
+``` java
+        JSONObject jObject = new JSONObject();
+        jObject.put("this", "that");
+```
+
+---
